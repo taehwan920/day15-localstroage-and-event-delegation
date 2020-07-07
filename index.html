@@ -72,9 +72,22 @@
     }
     // 이 방식으로 하면 li 태그가 속한 ul태그 전부를 rerender하지 않고도 계속해서 li 태그를 추가할 수 있음.
 
-    addItems.addEventListener('submit', addItem);
+    function toggleDone(e) {
+      if (!e.target.matches('input')) return;
+      const el = e.target;
+      const index = el.dataset.index;
+      items[index].done = !items[index].done;
+      localStorage.setItem('items', JSON.stringify(items));
+      populateList(items, itemsList);
+    };
 
-    populateList(items, itemsList)
+    addItems.addEventListener('submit', addItem);
+    itemsList.addEventListener('click', toggleDone);
+    populateList(items, itemsList);
+
+    // const checkBoxes = document.querySelectorAll('input');
+    // checkBoxes.forEach(input => input.addEventListener('click', () => alert('hi')));
+    // 지금 이 상태면 새로 추가된 요소들은 이벤트의 영향을 받지 않게되므로, 그 부모요소에 이벤트리스너를 추가해 이벤트가 작동하는 경우 그 자식요소가 이벤트를 실행하도록 하는게 이벤트 위임(delegation);
   </script>
 
 
